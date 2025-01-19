@@ -1,5 +1,6 @@
 import 'package:chit_chat/Model/chat_buddy.dart';
 import 'package:chit_chat/Model/user.dart';
+import 'package:chit_chat/Screen/inbox.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -144,68 +145,81 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
                   itemCount: CHAT_BUDDIES.length,
                   itemBuilder: (context, index) {
                     final controller = AnimationController(
-                      duration: const Duration(milliseconds: 800), // Slower animation duration
+                      duration: const Duration(milliseconds: 800),
                       vsync: this,
                     );
 
                     Future.delayed(Duration(milliseconds: index * 100), () {
-                      controller.forward(); // Trigger animation with a delay
+                      controller.forward();
                     });
 
-                    return AnimatedBuilder(
-                      animation: controller,
-                      builder: (context, child) {
-                        return AnimatedOpacity(
-                          opacity: controller.value,
-                          duration: const Duration(milliseconds: 100),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: Colors.black26, // Border color
-                                        width: 1.0, // Border width
+                    return GestureDetector(
+                      onTap: () {
+                        final user = CHAT_BUDDIES[index].user;
+                        if (user != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Inbox(user: user),
+                            ),
+                          );
+                        }
+                      },
+                      child: AnimatedBuilder(
+                        animation: controller,
+                        builder: (context, child) {
+                          return AnimatedOpacity(
+                            opacity: controller.value,
+                            duration: const Duration(milliseconds: 100),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: Colors.black26,
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      child: CircleAvatar(
+                                        backgroundImage: CHAT_BUDDIES[index].user?.avatar != null
+                                            ? NetworkImage(CHAT_BUDDIES[index].user!.avatar!)
+                                            : null,
+                                        child: CHAT_BUDDIES[index].user?.avatar == null
+                                            ? const Icon(Icons.person, color: Colors.grey)
+                                            : null,
                                       ),
                                     ),
-                                    child: CircleAvatar(
-                                      backgroundImage: CHAT_BUDDIES[index].user?.avatar != null
-                                          ? NetworkImage(CHAT_BUDDIES[index].user!.avatar!)
-                                          : null,
-                                      child: CHAT_BUDDIES[index].user?.avatar == null
-                                          ? const Icon(Icons.person, color: Colors.grey)
-                                          : null,
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            CHAT_BUDDIES[index].user?.name ?? "Unknown User",
+                                            style: const TextStyle(fontWeight: FontWeight.w500),
+                                          ),
+                                          Text(
+                                            CHAT_BUDDIES[index].message ?? "",
+                                            style: const TextStyle(color: Colors.black54),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          CHAT_BUDDIES[index].user?.name ?? "Unknown User",
-                                          style: const TextStyle(fontWeight: FontWeight.w500),
-                                        ),
-                                        Text(
-                                          CHAT_BUDDIES[index].message ?? "",
-                                          style: const TextStyle(color: Colors.black54),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              if (index != CHAT_BUDDIES.length - 1) const Divider(),
-                            ],
-                          ),
-                        );
-                      },
+                                  ],
+                                ),
+                                if (index != CHAT_BUDDIES.length - 1) const Divider(),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     );
                   },
                 ),
-              ),
+              )
             ],
           ),
         ),
