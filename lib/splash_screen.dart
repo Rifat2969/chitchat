@@ -17,18 +17,15 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 2), () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatScreen()));
     });
   }
 
-  bool _showSecondText = false;
   @override
   Widget build(BuildContext context) {
     SizeConfig.initMediaQuery(context);
     Future.delayed(const Duration(seconds: 1), () {
-      setState(() {
-        _showSecondText = true;
-      });
+      setState(() {});
     });
     return Scaffold(
       body: Container(

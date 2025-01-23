@@ -19,7 +19,7 @@ class _InboxState extends State<Inbox> {
   final List<String> _hints = ["Hi there", "Hello", "Any discount available?"];
   bool _hasMessages = false;
   final ImagePicker _picker = ImagePicker();
-  File? _imageFile; // Temporary storage for the image before sending
+  File? _imageFile;
 
   void _sendMessage(String message) {
     if (message.trim().isNotEmpty) {
@@ -75,7 +75,7 @@ class _InboxState extends State<Inbox> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.8,
             child: Image.file(
               File(_messages[index]),
@@ -119,7 +119,7 @@ class _InboxState extends State<Inbox> {
                       itemCount: _messages.length,
                       itemBuilder: (context, index) {
                         if (index >= _messages.length) {
-                          return SizedBox.shrink(); // Prevents out-of-bounds access
+                          return const SizedBox.shrink(); // Prevents out-of-bounds access
                         }
 
                         if (_messages[index].endsWith('.jpg') || _messages[index].endsWith('.png')) {
@@ -131,7 +131,7 @@ class _InboxState extends State<Inbox> {
                                 onTap: () => _showFullImage(index),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12), // Rounded border with radius of 12
+                                    borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
                                       color: Colors.white,
                                       width: 2, // You can adjust the border width
@@ -231,12 +231,12 @@ class _InboxState extends State<Inbox> {
                         }).toList(),
                       ),
                     ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       GestureDetector(
                         onTap: _showBottomSheet,
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                           radius: 12,
                           backgroundColor: Colors.blue,
                           child: Icon(
@@ -274,7 +274,7 @@ class _InboxState extends State<Inbox> {
                             _sendMessage(message); // Send the text message
                           }
                         },
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                           radius: 20,
                           backgroundColor: Colors.blue,
                           child: Icon(
