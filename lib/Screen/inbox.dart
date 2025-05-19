@@ -285,16 +285,10 @@ class _InboxState extends State<Inbox> {
                         ),
                       ],
                     ),
-                    // Display the preview of the selected image
                     if (_imageFile != null)
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: Image.file(
-                          _imageFile!,
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
+                        child: Image.file(_imageFile!, width: 100, height: 100, fit: BoxFit.cover),
                       ),
                   ],
                 ),
